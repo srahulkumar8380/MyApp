@@ -3,9 +3,7 @@ package com.example.myapp.controller;
 import com.example.myapp.entity.Employee;
 import com.example.myapp.exception.BusinessException;
 import com.example.myapp.exception.ControllerException;
-import com.example.myapp.repos.EmployeeRepo;
 import com.example.myapp.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,20 +14,24 @@ import java.util.List;
 @RequestMapping("/code")
 public class EmployeeController {
     //this is EmployeeController
-    @Autowired
+    final
     EmployeeService employeeService;
+
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
     @PostMapping("/save")
     public ResponseEntity<?> addEmployee(@RequestBody Employee emp)
     {
         try{
             Employee e= employeeService.addMyEmployee(emp);
-            return new ResponseEntity<Employee>(e,HttpStatus.CREATED);
+            return new ResponseEntity<>(e,HttpStatus.CREATED);
         }
         catch (BusinessException e)
         {
             ControllerException con=new ControllerException(e.getErrorCode(),e.getErrorMessage());
-            return new ResponseEntity<ControllerException>(con,HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(con,HttpStatus.BAD_REQUEST);
         }
         catch (Exception e)
         {
@@ -42,7 +44,7 @@ public class EmployeeController {
     public  ResponseEntity<List<Employee>> getALlEmployee()
     {
         List<Employee> list= employeeService.getAllEmployees();
-        return new ResponseEntity<List<Employee> >(list,HttpStatus.OK);
+        return new ResponseEntity< >(list,HttpStatus.OK);
     }
 
     @GetMapping("/emp/{empId}")
@@ -50,12 +52,12 @@ public class EmployeeController {
     {
         try{
             Employee emp= employeeService.getEmpById(empId);
-            return new ResponseEntity<Employee >(emp,HttpStatus.OK);
+            return new ResponseEntity< >(emp,HttpStatus.OK);
         }
         catch (BusinessException e)
         {
             ControllerException con=new ControllerException(e.getErrorCode(),e.getErrorMessage());
-            return new ResponseEntity<ControllerException>(con,HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(con,HttpStatus.BAD_REQUEST);
         }
         catch (Exception e)
         {
@@ -68,14 +70,14 @@ public class EmployeeController {
     public ResponseEntity<Void> deleteEmpByID(@PathVariable("empId") Long empId)
     {
         employeeService.deleteEmpByID(empId);
-        return  new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+        return  new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     @PutMapping("/update")
     public ResponseEntity<Employee> updateEmployee(@RequestBody Employee emp)
     {
         Employee e= employeeService.addMyEmployee(emp);
-        return new ResponseEntity<Employee>(e,HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(e,HttpStatus.ACCEPTED);
     }
 
 }
