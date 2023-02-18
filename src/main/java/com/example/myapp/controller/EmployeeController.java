@@ -24,20 +24,9 @@ public class EmployeeController {
     @PostMapping("/save")
     public ResponseEntity<?> addEmployee(@RequestBody Employee emp)
     {
-        try{
-            Employee e= employeeService.addMyEmployee(emp);
-            return new ResponseEntity<>(e,HttpStatus.CREATED);
-        }
-        catch (BusinessException e)
-        {
-            ControllerException con=new ControllerException(e.getErrorCode(),e.getErrorMessage());
-            return new ResponseEntity<>(con,HttpStatus.BAD_REQUEST);
-        }
-        catch (Exception e)
-        {
-            ControllerException con=new ControllerException("611","Something went wrong in controller"+e.getMessage());
-            return  new ResponseEntity<Exception>(con,HttpStatus.BAD_REQUEST);
-        }
+        //In this method GlobalException Handling is implemented
+        Employee e= employeeService.addMyEmployee(emp);
+        return new ResponseEntity<>(e,HttpStatus.CREATED);
     }
 
     @GetMapping("/all")
@@ -50,6 +39,7 @@ public class EmployeeController {
     @GetMapping("/emp/{empId}")
     public  ResponseEntity<?> getEmpById(@PathVariable("empId") Long empId)
     {
+        //In this method CustomException Handling is implemented
         try{
             Employee emp= employeeService.getEmpById(empId);
             return new ResponseEntity< >(emp,HttpStatus.OK);
