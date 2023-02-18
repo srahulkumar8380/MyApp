@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 //Global Exception Handling
 @ControllerAdvice
 public class MyControllerAdvice extends ResponseEntityExceptionHandler {
-
+    //My Globle Exception
     @ExceptionHandler(EmptyInputException.class)
     public ResponseEntity<String> handleEmptyInput(EmptyInputException emptyInputException)
     {
