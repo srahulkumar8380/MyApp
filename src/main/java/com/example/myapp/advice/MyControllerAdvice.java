@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class MyControllerAdvice extends ResponseEntityExceptionHandler {
     //My Globle Exception
+    //Please don't change this class
     @ExceptionHandler(EmptyInputException.class)
     public ResponseEntity<String> handleEmptyInput(EmptyInputException emptyInputException)
     {
